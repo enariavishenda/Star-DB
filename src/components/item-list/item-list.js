@@ -40,7 +40,7 @@ export default class ItemList extends Component {
                     FirstName2 LastName2
                 </li>
                 <li className="list-group-item">
-                    FirstName2 LastName2
+                    FirstName3 LastName3
                 </li>
 
             </ul>
