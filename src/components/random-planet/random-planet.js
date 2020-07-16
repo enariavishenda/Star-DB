@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import SwapiService from "../../services/swapi-sevice.js"
 import Loader from "../loader";
+import Error from "../error-indicator";
 
 import './random-planet.css'
 
@@ -9,7 +10,8 @@ export default class RandomPlanet extends Component {
 
     state = {
         planet: {},
-        loading: true
+        loading: true,
+        error: false
     };
 
     swapi = new SwapiService();
@@ -20,24 +22,33 @@ export default class RandomPlanet extends Component {
     }
 
     onPlanetLoaded = (planet) => { //будем передавать эту функцию в другую функцию
-        this.setState({ planet, loading: false }) //вставляем весь уже трансформированный объект целиком из swapi, вместо того, чтобы вытаскивать по каждому свойству.
+        this.setState({ planet, loading: false, error: false }) //вставляем весь уже трансформированный объект целиком из swapi, вместо того, чтобы вытаскивать по каждому свойству.
         //а так же нам нужен уже объект вместе с id для изображения, id реализован в swapi регулярным выражением url'a
         //если у нас есть планета, то Loader не возвращается
     }
 
+    onError = (err) => {
+        this.setState({
+            error: true,
+            loading: false
+        })
+    }
+
     updatePlanet () {
-        const id = 12
+        const id = 11
         this.swapi
             .getPlanet(id)
             .then(this.onPlanetLoaded)
+            .catch(this.onError)
     }
 
     render() {
 
-        const { planet, loading } = this.state
+        const { planet, loading, error } = this.state
 
+        const errors = error ? <Error /> : null
         const load = loading ? <Loader /> : null
-        const content = !loading ? <JSX_Planet planet={planet}/> : null
+        const content = !(loading || error) ? <JSX_Planet planet={planet}/> : null
 
 
         return (
@@ -47,6 +58,7 @@ export default class RandomPlanet extends Component {
                     Random Place
                 </h5>
                 <div className="random-planet jumbotron rounded">
+                    {errors}
                     {load}
                     {content}
                 </div>
@@ -55,7 +67,7 @@ export default class RandomPlanet extends Component {
     }
 }
 
-const JSX_Planet = ({ planet }) => {
+const JSX_Planet = ({ planet }) => { //отображение уже готовых данных, разделили обязоности
 
     const { id, name, population, rotation, diameter } = planet
 
