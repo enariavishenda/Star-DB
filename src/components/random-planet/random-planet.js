@@ -16,9 +16,15 @@ export default class RandomPlanet extends Component {
 
     swapi = new SwapiService();
 
-    constructor() {
-        super();
+    componentDidMount() {
+        console.log('did mounth()')
         this.updatePlanet()
+        this.interval = setInterval(this.updatePlanet, 10500) //setInterval нужно очищать, сохраним id этого сетинтервала
+        //clearInterval(this.interval)
+    }
+
+    componentWillUnmount() {
+        console.log('wi;; Unmount()')
     }
 
     onPlanetLoaded = (planet) => { //будем передавать эту функцию в другую функцию
@@ -34,15 +40,19 @@ export default class RandomPlanet extends Component {
         })
     }
 
-    updatePlanet () {
-        const id = 11
+    updatePlanet = () => {
+        console.log('update')
+        const id = Math.floor(Math.random()*17)+3
         this.swapi
             .getPlanet(id)
             .then(this.onPlanetLoaded)
             .catch(this.onError)
     }
 
+
     render() {
+
+        console.log('render()')
 
         const { planet, loading, error } = this.state
 

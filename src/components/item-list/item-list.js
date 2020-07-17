@@ -1,48 +1,48 @@
 import React, { Component } from 'react';
+import '../../services/swapi-sevice'
 
 import './item-list.css';
-
+import SwapiService from "../../services/swapi-sevice";
+import Loader from "../loader";
 export default class ItemList extends Component {
+
+    swapi = new SwapiService()
+
+    state = {
+        peopleList: null
+    }
+
+    componentDidMount() {
+        this.swapi
+            .getAllPeople()
+            .then((peopleList) => {
+                this.setState({
+                    peopleList
+                })
+        })
+    }
+    renderElements(arr) {
+        return arr.map(({id,name}) => {
+            return (
+                <li className="list-group-item"
+                    key={id}
+                    onClick={() => this.props.selectedPerson(id)}>
+                    {name}
+                </li>
+            )
+        })
+    }
+
     render() {
+        const { peopleList} = this.state
+        if (!peopleList) {
+            return <Loader />
+        }
+        const elements = this.renderElements(peopleList)
+
         return (
             <ul className="item-list list-group">
-                <li className="list-group-item">
-                    FirstName0 LastName0
-                </li>
-                <li className="list-group-item">
-                    FirstName1 LastName1
-                </li>
-                <li className="list-group-item">
-                    FirstName2 LastName2
-                </li>
-                <li className="list-group-item">
-                    FirstName2 LastName2
-                </li>
-                <li className="list-group-item">
-                    FirstName2 LastName2
-                </li>
-                <li className="list-group-item">
-                    FirstName2 LastName2
-                </li>
-                <li className="list-group-item">
-                    FirstName2 LastName2
-                </li>
-                <li className="list-group-item">
-                    FirstName2 LastName2
-                </li>
-                <li className="list-group-item">
-                    FirstName2 LastName2
-                </li>
-                <li className="list-group-item">
-                    FirstName2 LastName2
-                </li>
-                <li className="list-group-item">
-                    FirstName2 LastName2
-                </li>
-                <li className="list-group-item">
-                    FirstName3 LastName3
-                </li>
-
+                {elements}
             </ul>
         )
     }

@@ -46,7 +46,7 @@ export default class SwapiService {
         return item.url.match(idRegExp)[1] //первая группа между ( ... )
     }
 
-    API_transformPlanet(planet) {
+    API_transformPlanet = (planet) => {
         return {
             id: this._extractId(planet), //после того как вытащили из url с помощью функции _extractId
             name: planet.name,
@@ -56,7 +56,7 @@ export default class SwapiService {
         }
     }
 
-    API_transformStarship(starship) {
+    API_transformStarship = (starship) => {
         return {
             id: this._extractId(starship), //после того как вытащили из url с помощью функции _extractId
             name: starship.name,
@@ -70,7 +70,7 @@ export default class SwapiService {
         }
     }
 
-    API_transformPerson(person) {
+    API_transformPerson = (person) => {
         return {
             id: this._extractId(person), //после того как вытащили из url с помощью функции _extractId
             name: person.name,
