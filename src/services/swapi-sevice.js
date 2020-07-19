@@ -75,8 +75,8 @@ export default class SwapiService {
             id: this._extractId(person), //после того как вытащили из url с помощью функции _extractId
             name: person.name,
             gender: person.gender,
-            birthYear: person.birthYear,
-            eyeColor: person.eyeColor
+            birthYear: person.birth_year,
+            eyeColor: person.eye_color
         }
     }
 

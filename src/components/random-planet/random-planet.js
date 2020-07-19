@@ -20,10 +20,10 @@ export default class RandomPlanet extends Component {
         console.log('did mounth()')
         this.updatePlanet()
         this.interval = setInterval(this.updatePlanet, 10500) //setInterval нужно очищать, сохраним id этого сетинтервала
-        //clearInterval(this.interval)
     }
 
-    componentWillUnmount() {
+    componentWillUnmount() { //вызывается, когда компонент будет удален
+        clearInterval(this.interval)
         console.log('wi;; Unmount()')
     }
 
@@ -41,7 +41,7 @@ export default class RandomPlanet extends Component {
     }
 
     updatePlanet = () => {
-        console.log('update')
+        console.log('update planet')
         const id = Math.floor(Math.random()*17)+3
         this.swapi
             .getPlanet(id)
@@ -51,8 +51,6 @@ export default class RandomPlanet extends Component {
 
 
     render() {
-
-        console.log('render()')
 
         const { planet, loading, error } = this.state
 
