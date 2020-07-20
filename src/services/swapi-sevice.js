@@ -2,7 +2,7 @@ export default class SwapiService {
 
     _apiBase = 'https://swapi.dev/api'
 
-    async getResource(url) {
+    getResource = async (url) => {
         const res = await fetch(`${this._apiBase}${url}`)
 
         if (!res.ok) {
@@ -12,31 +12,31 @@ export default class SwapiService {
         return await res.json(); //return body object
     }
 
-    async getAllPeople() {
+    getAllPeople = async () => { // не потеряет this
         const res = await this.getResource(`/people/`)
         //мы не хотим отдавать коллекцию полученную от API
         //хоти передавать измененную коллекцию через метод API_transformPerson()
         return res.results.map(this.API_transformPerson)
     }
-    async getPerson(id) {
+    getPerson = async (id) => {
         const person = await this.getResource(`/people/${id}/`)
         return this.API_transformPerson(person)
     }
 
-    async getAllPlanets() {
+    getAllPlanets = async () => {
         const res = await this.getResource(`/planets/`)
         return res.results.map(this.API_transformPlanet)
     }
-    async getPlanet(id) {
+    getPlanet = async (id) => {
         const planet = await this.getResource(`/planets/${id}/`)
         return this.API_transformPlanet(planet)
     }
 
-    async getAllStarships() {
+    getAllStarships = async () => {
         const res = await this.getResource(`/starships/`)
         return res.results.map(this.API_transformStarship)
     }
-    async getStarship(id) {
+    getStarship = async (id) => {
         const starship = await this.getResource(`/starships/${id}/`)
         return this.API_transformStarship(starship)
     }
