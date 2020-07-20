@@ -24,6 +24,7 @@ export default class PersonDetails extends Component {
             this.updatePerson() //без обертки if будет бесконечный цикл обновления
             console.log('update person')
             this.setState({
+                error: false,
                 loading: true
             })
         }
