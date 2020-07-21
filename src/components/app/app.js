@@ -30,31 +30,6 @@ export default class App extends Component {
                 <Header/>
                 <RandomPlanet/>
                 <PagePeople />
-
-                <div className="row mb2">
-                    <div className="col-md-6 item">
-                        <ItemList selectedPerson={this.selectedPersonItem}
-                        getData={this.swapi.getAllPlanets} //для получения данных
-                        renderItem={(item) => item.name} //отрисовка элемента списка
-                        />
-                    </div>
-                    <div className="col-md-6">
-                        <PersonDetails personId={this.state.selectedPerson}/>
-                    </div>
-                </div>
-
-                <div className="row mb2">
-                    <div className="col-md-6 item">
-                        <ItemList selectedPerson={this.selectedPersonItem}
-                                  getData={this.swapi.getAllStarships}
-                                  renderItem={(item) => `${item.name} (${item.model})`}
-                        />
-                    </div>
-                    <div className="col-md-6">
-                        <PersonDetails personId={this.state.selectedPerson}/>
-                    </div>
-                </div>
-
             </div>
         )
     }

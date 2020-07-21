@@ -21,7 +21,7 @@ export default class ItemList extends Component {
     renderElements(arr) {
         return arr.map((item) => {
             const {id} = item
-            const label = this.props.renderItem(item)
+            const label = this.props.children(item)
             return (
                 <li className="list-group-item"
                     key={id}
@@ -33,7 +33,7 @@ export default class ItemList extends Component {
     }
 
     render() {
-        const { itemList} = this.state
+        const { itemList } = this.state
         if (!itemList) {
             return <Loader />
         }
