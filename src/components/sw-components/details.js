@@ -1,20 +1,10 @@
-import SwapiService from "../../services/swapi-sevice";
 import {Record} from "../item-details/item-details";
 import ItemDetails from "../item-details";
 import React from "react";
+import { withSwapi } from "../hoc-helper";
 
-const swapi= new SwapiService()
-
-const {
-    getPerson,
-    getPlanet,
-    getStarship,
-    getPersonImage,
-    getPlanetImage,
-    getStarshipImage,
-} = swapi
-
-const PersonDetails = ({itemId}) => {
+const PersonDetails = ({itemId, swapi}) => {
+    const {getPerson,getPersonImage} = swapi
     return (
         <ItemDetails itemId={itemId}
                      getDataItem={getPerson}
@@ -25,9 +15,9 @@ const PersonDetails = ({itemId}) => {
 
         </ItemDetails>
     )
-
 }
-const PlanetDetails = ({itemId}) => {
+const PlanetDetails = ({itemId, swapi}) => {
+    const { getPlanet, getPlanetImage } =swapi
     return (
         <ItemDetails itemId={itemId}
                      getDataItem={getPlanet}
@@ -39,7 +29,8 @@ const PlanetDetails = ({itemId}) => {
         </ItemDetails>
     )
 }
-const StarshipDetails = ({itemId}) => {
+const StarshipDetails = ({itemId, swapi}) => {
+    const { getStarship, getStarshipImage } = swapi
     return (
         <ItemDetails itemId={itemId}
                      getDataItem={getStarship}
@@ -52,8 +43,12 @@ const StarshipDetails = ({itemId}) => {
     )
 }
 
+const PersonD = withSwapi(PersonDetails);
+const PlanetD = withSwapi(PlanetDetails);
+const StarshipD = withSwapi(StarshipDetails)
+
 export {
-    PersonDetails,
-    PlanetDetails,
-    StarshipDetails
+    PersonD,
+    PlanetD,
+    StarshipD
 }

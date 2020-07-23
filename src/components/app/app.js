@@ -3,27 +3,31 @@ import React, {Component} from 'react';
 import Header from '../header';
 import RandomPlanet from "../random-planet";
 import Error from "../error-indicator";
-import PagePeople from "../people-page";
-import Row from "../row";
-import SwapiService from "../../services/swapi-sevice";
+
 import ItemDetails from "../item-details";
 import {Record} from "../item-details/item-details";
 
+import {SwapiProvider} from "../swapi-service-context";
+
 import {
-    PersonDetails,
-    PlanetDetails,
-    StarshipDetails,
+    PersonD,
+    PlanetD,
+    StarshipD,
     PersonList,
     PlanetList,
     StarshipList
 } from '../sw-components'
 
 import './app.css';
+import ErrorBoundry from "../error-boundry";
+
+import DummySwapiService from "../../services/dummy-swapi-service";
 
 
 export default class App extends Component {
-
-    swapi = new SwapiService()
+ 
+    swapi = new DummySwapiService() //dummy-service для тестировки приложения,
+    // можно легко подключить теперь.
 
     state = {
         hasError: false
@@ -67,27 +71,26 @@ export default class App extends Component {
         )
 
         return (
-            <div>
-                <Header/>
-                <RandomPlanet/>
-                {/*<PagePeople />*/}
-                {/*<Row left={personItem} right={starshipItem} />*/}
+            <ErrorBoundry>
+                <SwapiProvider value={this.swapi}>
+                    <div>
+                        <Header/>
+                        <RandomPlanet/>
+                        {/*<PagePeople />*/}
+                        {/*<Row left={personItem} right={starshipItem} />*/}
 
-                <PersonDetails itemId={11} />
-                <PlanetDetails itemId={8} />
-                <StarshipDetails itemId={9} />
+                        <PersonD itemId={11} />
+                        <PlanetD itemId={8} />
+                        <StarshipD itemId={9} />
 
-                <PersonList>
-                    { ({name}) => <span>{name}</span>}
-                </PersonList>
-                <PlanetList>
-                    { ({name}) => <span>{name}</span>}
-                </PlanetList>
-                <StarshipList>
-                    { ({name}) => <span>{name}</span>}
-                </StarshipList>
+                        <PersonList />
+                        <PlanetList />
+                        <StarshipList />
 
-            </div>
+                    </div>
+                </SwapiProvider>
+            </ErrorBoundry>
+            
         )
     }
 }
