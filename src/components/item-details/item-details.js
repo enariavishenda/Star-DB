@@ -6,8 +6,6 @@ export default class ItemDetails extends Component {
 
     state = {
         item: {},
-        error: false,
-        loading: true,
         image: null
     }
 
@@ -20,17 +18,11 @@ export default class ItemDetails extends Component {
             || this.props.getImageUrl !== prevProps.getImageUrl) {
             this.updateItem() //без обертки if будет бесконечный цикл обновления
             console.log('update person')
-            this.setState({
-                error: false,
-                loading: true
-            })
         }}
 
-    onError = (err) => {
-        this.setState({
-            error: true,
-            loading: false
-        })}
+    onError = (error) => {
+        console.log('Ошибка: ', error)
+    }
 
     updateItem = () => {
         const {itemId, getDataItem, getImageUrl} = this.props;
@@ -40,8 +32,6 @@ export default class ItemDetails extends Component {
         const onItemLoaded = (item) => {
             this.setState({
                 item,
-                error: false,
-                loading: false,
                 image: getImageUrl(item)//напишем функцию которая получает сам item, и по этому элементу возвращает картинку
             })
         }
@@ -50,20 +40,11 @@ export default class ItemDetails extends Component {
 
     render() {
 
-        const { item, error, loading, image } = this.state
-        //
-        // const errors = error ? <Error /> : null
-        // const load = loading ? <Loader /> : null
-        // const content = !(loading || error) ?
-        //     <JSX_Person item={item} image={image}/> : null
-
-        const { name, gender, birthYear, eyeColor} = item
+        const { item, image } = this.state
+        const { name} = item
 
         return(
             <div className="person-details card">
-                {/*{errors}*/}
-                {/*{load}*/}
-                {/*{content}*/}
                 <img className="person-image"
                      src={image}
                 />
@@ -85,28 +66,6 @@ export default class ItemDetails extends Component {
     }
 }
 
-const JSX_Person = ({item, image}) => {
-    const { name, gender, birthYear, eyeColor} = item
-    return (
-        <React.Fragment>
-            <img className="person-image"
-                 src={image}
-            />
-            <div className="card-body">
-                <h4>{name}</h4>
-                <ul className="list-group list-group-flush">
-                    { //функция будет вызвана для каждого child,
-                        //child может быть любым элементом, строка функция объект.
-                        React.Children.map(this.props.children, (child) => {
-                            return child
-                            }
-                        )
-                    }
-                </ul>
-            </div>
-        </React.Fragment>
-    )
-}
 
 const Record = ({item, field, label}) => {
     return (
