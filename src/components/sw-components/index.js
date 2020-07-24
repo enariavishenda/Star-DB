@@ -1,8 +1,6 @@
-import {
-    PersonD,
-    PlanetD,
-    StarshipD
-} from './details'
+import PersonDetails from "./person-details";
+import PlanetDetails from "./planet-details";
+import StarshipDetails from "./starship-details";
 import {
     PersonList,
     PlanetList,
@@ -10,9 +8,9 @@ import {
 } from './list-items'
 
 export {
-    PersonD,
-    PlanetD,
-    StarshipD,
+    PersonDetails,
+    PlanetDetails,
+    StarshipDetails,
     PersonList,
     PlanetList,
     StarshipList

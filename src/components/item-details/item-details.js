@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 
 import './item-details.css';
-import Loader from "../loader";
-import Error from "../error-indicator";
 
 export default class ItemDetails extends Component {
 
@@ -17,7 +15,9 @@ export default class ItemDetails extends Component {
         this.updateItem()
     }
     componentDidUpdate(prevProps) {
-        if (this.props.itemId !== prevProps.itemId) {
+        if (this.props.itemId !== prevProps.itemId
+            || this.props.getDataItem !== prevProps.getDataItem
+            || this.props.getImageUrl !== prevProps.getImageUrl) {
             this.updateItem() //без обертки if будет бесконечный цикл обновления
             console.log('update person')
             this.setState({

@@ -2,16 +2,25 @@ import React, {Component} from "react";
 import Loader from "../loader";
 import './hoc-helper.css'
 
-const withData = (View, getData) => {
+const withData = (View) => {
     return class extends Component {
 
         state = {
             data: null
         }
 
-        componentDidMount() {
+        componentDidUpdate(prevProps) {
+            if (this.props.getData !== prevProps.getData) {
+                this.update()
+            }
+        }
 
-            getData().then((data) => {
+        componentDidMount() {
+            this.update()
+        }
+
+        update() {
+            this.props.getData().then((data) => {
                 this.setState({
                     data
                 })
