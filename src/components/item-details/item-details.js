@@ -42,6 +42,8 @@ export default class ItemDetails extends Component {
 
         const { item, image } = this.state
         const { name} = item
+        const childrenRecord = (React.Children.map(this.props.children, (child) => {
+                return React.cloneElement(child, {item})}))
 
         return(
             <div className="person-details card">
@@ -54,10 +56,7 @@ export default class ItemDetails extends Component {
                         { //функция будет вызвана для каждого child,
                             //child может быть любым элементом, строка функция объект.
                             //можно модифицировать child
-                            React.Children.map(this.props.children, (child) => {
-                                    return React.cloneElement(child, {item})
-                                }
-                            )
+                            childrenRecord
                         }
                     </ul>
                 </div>

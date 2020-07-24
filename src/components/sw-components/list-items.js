@@ -1,16 +1,8 @@
 import React from "react";
 import {withData, withSwapi} from "../hoc-helper";
 import ItemList from "../item-list";
-
-const withChildrenFunction = (fn) => (Lists) => {
-    return (props) => {
-        return (
-            <Lists {...props}>
-                {fn}
-            </Lists>
-        )
-    }
-}
+import withChildrenFunction from "../hoc-helper/with-child-function";
+import compose from "../hoc-helper/compose";
 
 const renderName = ({name}) => <span>{name}</span> //всегда установлена рендер функция
 const renderModelAndName = ({ model, name }) => <span>{name} ({model})</span>
@@ -31,18 +23,22 @@ const mapStarshipProps = (swapi) => {
     }
 }
 
-const PersonList = withSwapi(mapPersonProps)(
-                        withData(
-                            withChildrenFunction(renderName)(
-                                ItemList)))
-const PlanetList = withSwapi(mapPlanetProps)(
-                        withData(
-                            withChildrenFunction(renderName)(
-                                ItemList)))
-const StarshipList = withSwapi(mapStarshipProps)(
-                        withData(
-                            withChildrenFunction(renderModelAndName)(
-                                ItemList)))
+const PersonList = compose(
+    withSwapi(mapPersonProps),
+    withData,
+    withChildrenFunction(renderName))
+(ItemList)
+
+const PlanetList = compose(
+    withSwapi(mapPlanetProps),
+    withData,
+    withChildrenFunction(renderName))
+(ItemList)
+const StarshipList = compose(
+    withSwapi(mapStarshipProps),
+    withData,
+    withChildrenFunction(renderModelAndName))
+(ItemList)
 
 export {
     PersonList,
