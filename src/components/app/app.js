@@ -45,7 +45,7 @@ export default class App extends Component {
                 <SwapiProvider value={this.state.swapi}>
                     <div>
                         <Header onServiceChange={this.onServiceChange}/>
-                        <RandomPlanet/>
+                        <RandomPlanet />
 
                         <PeoplePage />
                         <PlanetPage />

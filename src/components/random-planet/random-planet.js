@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types'
 import SwapiService from "../../services/swapi-sevice.js"
 import Loader from "../loader";
 import Error from "../error-indicator";
@@ -7,6 +8,13 @@ import './random-planet.css'
 
 export default class RandomPlanet extends Component {
 
+    static defaultProps = {
+        updateInterval:  8000
+    }
+
+    static propTypes = {
+        updateInterval: PropTypes.number
+    }
 
     state = {
         planet: {},
@@ -17,9 +25,10 @@ export default class RandomPlanet extends Component {
     swapi = new SwapiService();
 
     componentDidMount() {
+        const { updateInterval } = this.props
         console.log('did mounth()')
         this.updatePlanet()
-        this.interval = setInterval(this.updatePlanet, 10500) //setInterval нужно очищать, сохраним id этого сетинтервала
+        this.interval = setInterval(this.updatePlanet, updateInterval) //setInterval нужно очищать, сохраним id этого сетинтервала
     }
 
     componentWillUnmount() { //вызывается, когда компонент будет удален
