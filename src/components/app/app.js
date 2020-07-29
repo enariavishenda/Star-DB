@@ -12,6 +12,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 
 import './app.css';
+import StarshipDetails from "../sw-components/starship-details";
 
 export default class App extends Component {
 
@@ -49,9 +50,19 @@ export default class App extends Component {
                             <Header onServiceChange={this.onServiceChange}/>
                             <RandomPlanet />
 
-                            <Route path="/people" component={PeoplePage} />
+                            <Route path="/"
+                                   render={() => <h2>Welcome to Star Wars Test's DataBase</h2>}
+                                   exact
+                            />
+                            <Route path="/people/:id?" component={PeoplePage} />
                             <Route path="/planets" component={PlanetPage} />
-                            <Route path="/starships" component={StarshipPage} />
+                            <Route path="/starships" exact component={StarshipPage} />
+                            <Route path="/starships/:id"
+                                   render={
+                                       ({match}) => {
+                                           const {id} = match.params
+                                           return <StarshipDetails itemId={id} />
+                                   }} />
 
                         </div>
                     </Router>
