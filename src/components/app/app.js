@@ -7,8 +7,8 @@ import ErrorBoundry from "../error-boundry";
 import {SwapiProvider} from "../swapi-service-context";
 import SwapiService from "../../services/swapi-sevice";
 import DummySwapiService from "../../services/dummy-swapi-service";
-import {PeoplePage, PlanetPage, StarshipPage} from "../pages";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import {PeoplePage, PlanetPage, StarshipPage, LoginPage, SecretPage} from "../pages";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 
 
 import './app.css';
@@ -18,7 +18,14 @@ export default class App extends Component {
 
     state = {
         hasError: false,
-        swapi: new SwapiService()
+        swapi: new SwapiService(),
+        isLoggedIn: false
+    }
+
+    onLogin = () => {
+        this.setState({
+            isLoggedIn: true
+        })
     }
 
     componentDidCatch() {
@@ -42,6 +49,8 @@ export default class App extends Component {
             return <Error />
         }
 
+        const { isLoggedIn } = this.state
+
         return (
             <ErrorBoundry>
                 <SwapiProvider value={this.state.swapi}>
@@ -49,21 +58,37 @@ export default class App extends Component {
                         <div>
                             <Header onServiceChange={this.onServiceChange}/>
                             <RandomPlanet />
-
-                            <Route path="/"
-                                   render={() => <h2>Welcome to Star Wars Test's DataBase</h2>}
-                                   exact
-                            />
-                            <Route path="/people/:id?" component={PeoplePage} />
-                            <Route path="/planets" component={PlanetPage} />
-                            <Route path="/starships" exact component={StarshipPage} />
-                            <Route path="/starships/:id"
-                                   render={
-                                       ({match}) => {
-                                           const {id} = match.params
-                                           return <StarshipDetails itemId={id} />
-                                   }} />
-
+                            <Switch>
+                                <Route path="/"
+                                       render={() => <h2>Welcome to Star Wars Test's DataBase</h2>}
+                                       exact
+                                />
+                                <Route path="/people/:id?" component={PeoplePage} />
+                                <Route path="/planets" component={PlanetPage} />
+                                <Route path="/starships" exact component={StarshipPage} />
+                                <Route path="/starships/:id"
+                                       render={
+                                           ({match}) => {
+                                               const {id} = match.params
+                                               return <StarshipDetails itemId={id} />
+                                           }} />
+                                <Route path="/login"
+                                       render={() => (
+                                           <LoginPage
+                                               isLoggedIn={isLoggedIn}
+                                               onLogin={this.onLogin}/>
+                                       )}/>
+                                <Route path="/secret"
+                                       render={() => (
+                                           <SecretPage isLoggedIn={isLoggedIn}/>)} />
+                                <Route render={() => {
+                                    return (
+                                    <React.Fragment>
+                                    <h3 className="jumbotron text-center">Page not found</h3>
+                                    <Error/>
+                                    </React.Fragment>)
+                                }} />
+                            </Switch>
                         </div>
                     </Router>
                 </SwapiProvider>

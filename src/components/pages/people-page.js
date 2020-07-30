@@ -12,4 +12,5 @@ const PeoplePage = ({history,match}) => {
                 right={<PersonDetails itemId={id} />} />
         )
 }
+
 export default withRouter(PeoplePage)
